@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CDMX 2026">
+<meta name="theme-color" content="#3a0d24">
+<title>CDMX 2026 — Viaje en familia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&display=swap" rel="stylesheet">
+<style>
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  --ink: #3a0d24;
+  --rosa: #d6246e;
+  --rosa-soft: #fde7f0;
+  --verde: #0f7a5a;
+  --verde-soft: #e3f5ee;
+  --barro: #c2560f;
+  --barro-soft: #fdeee2;
+  --azul: #1f4e9c;
+  --azul-soft: #e5edfa;
+  --oro: #b7860b;
+  --oro-soft: #fbf3dc;
+  --bg: #faf6f1;
+  --card: #ffffff;
+  --line: #ece4dc;
+  --t1: #24151c;
+  --t2: #5e4a53;
+  --t3: #9a8890;
+  background: var(--ink);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1b1317; --card: #261b20; --line: #3a2c32;
+    --t1: #f5ecef; --t2: #cbb8bf; --t3: #8f7c84;
+    --rosa-soft: #3d1a2a; --verde-soft: #15302a; --barro-soft: #3a2416; --azul-soft: #1a2640; --oro-soft: #33291a;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1b1317; --card: #261b20; --line: #3a2c32;
+  --t1: #f5ecef; --t2: #cbb8bf; --t3: #8f7c84;
+  --rosa-soft: #3d1a2a; --verde-soft: #15302a; --barro-soft: #3a2416; --azul-soft: #1a2640; --oro-soft: #33291a;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; overflow: hidden; font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif; background: var(--ink); color: var(--t1); }
+img, svg { max-width: 100%; }
+
+.app-shell { display: flex; flex-direction: column; height: 100%; max-width: 460px; margin: 0 auto; background: var(--bg); overflow: hidden; }
+
+/* HERO */
+.hero { background: var(--ink); padding: 16px 16px 16px; flex-shrink: 0; position: relative; overflow: hidden; }
+.papel { position: absolute; top: 0; left: 0; right: 0; height: 14px; display: flex; }
+.papel span { flex: 1; height: 14px; clip-path: polygon(0 0,100% 0,100% 60%,75% 100%,50% 60%,25% 100%,0 60%); }
+.hero-eye { font-size: 10px; color: #f3a6c6; letter-spacing: .14em; text-transform: uppercase; margin-top: 12px; }
+.hero-title { font-family: 'Fraunces', Georgia, serif; font-size: 34px; font-weight: 800; color: #fff; line-height: 1; margin-top: 4px; letter-spacing: -.01em; }
+.hero-title em { font-style: normal; color: #ff7fb0; }
+.hero-sub { font-size: 12px; color: #f0cddb; margin-top: 4px; }
+.hero-row { display: flex; gap: 6px; margin-top: 12px; }
+.hs { flex: 1; background: rgba(255,255,255,.09); border-radius: 10px; padding: 7px 4px; text-align: center; }
+.hs-n { font-size: 17px; font-weight: 700; color: #fff; }
+.hs-l { font-size: 10px; color: #f3a6c6; margin-top: 1px; }
+.pax { display:flex; gap:6px; margin-top:9px; }
+.pax span { background: rgba(255,255,255,.14); border-radius: 20px; padding: 4px 11px; font-size: 11px; color: #fff; }
+.count { margin-top: 10px; font-size: 11px; color: #ffd6e6; background: rgba(214,36,110,.25); border-radius: 20px; padding: 5px 11px; display: inline-block; }
+
+/* NAV */
+.nav-bar { display: flex; background: var(--card); border-bottom: 1px solid var(--line); flex-shrink: 0; overflow-x: auto; scrollbar-width: none; }
+.nav-bar::-webkit-scrollbar { display: none; }
+.nav-btn { flex: 1 0 auto; padding: 8px 10px 7px; font-size: 10px; color: var(--t3); background: transparent; border: none; border-bottom: 2.5px solid transparent; font-family: inherit; cursor: pointer; min-width: 64px; white-space: nowrap; }
+.nav-btn .ni { font-size: 16px; display: block; margin-bottom: 2px; }
+.nav-btn.on { color: var(--rosa); border-bottom-color: var(--rosa); font-weight: 700; }
+
+.scroll-area { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; padding-bottom: 20px; }
+.page { padding: 12px; display: none; }
+.page.active { display: block; }
+
+/* DAY CARDS */
+.day-card { background: var(--card); border-radius: 16px; border: 1px solid var(--line); margin-bottom: 10px; overflow: hidden; }
+.day-card.bday { border: 2px solid var(--rosa); }
+.day-vis { width: 100%; height: 104px; display: block; }
+.day-head { display: flex; align-items: center; gap: 10px; padding: 11px 13px; cursor: pointer; user-select: none; -webkit-user-select: none; min-height: 60px; }
+.day-circle { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; flex-shrink: 0; }
+.day-meta { flex: 1; min-width: 0; }
+.day-name { font-size: 14px; font-weight: 700; color: var(--t1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.day-date { font-size: 11px; color: var(--t3); margin-top: 1px; }
+.day-tag { font-size: 10px; padding: 3px 8px; border-radius: 20px; font-weight: 700; flex-shrink: 0; }
+.chevron { font-size: 18px; color: var(--t3); transition: transform .2s; flex-shrink: 0; }
+.chevron.open { transform: rotate(90deg); }
+.day-body { padding: 0 13px 13px; display: none; }
+.day-body.show { display: block; }
+
+/* BLOCKS */
+.fl { background: var(--azul-soft); border-radius: 12px; padding: 11px; margin-bottom: 8px; }
+.fl-al { font-size: 10px; color: var(--azul); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 6px; }
+.fl-row { display: flex; align-items: center; gap: 4px; }
+.fl-city { text-align: center; }
+.fl-iata { font-size: 19px; font-weight: 800; color: var(--azul); }
+.fl-time { font-size: 11px; color: var(--t2); margin-top: 1px; }
+.fl-mid { flex: 1; text-align: center; }
+.fl-num { font-size: 11px; color: var(--azul); font-weight: 700; }
+.fl-line { height: 1px; background: var(--azul); opacity: .4; margin: 3px 6px; }
+
+.blk { border-radius: 11px; padding: 10px 11px; margin-bottom: 8px; }
+.blk-n { font-size: 13px; font-weight: 700; }
+.blk-d { font-size: 11px; margin-top: 3px; line-height: 1.5; color: var(--t2); }
+.b-hotel { background: var(--verde-soft); } .b-hotel .blk-n { color: var(--verde); }
+.b-act { background: var(--barro-soft); } .b-act .blk-n { color: var(--barro); }
+.b-rest { background: var(--rosa-soft); } .b-rest .blk-n { color: var(--rosa); }
+.b-bday { background: linear-gradient(135deg,#d6246e,#8e1650); } .b-bday .blk-n { color: #fff; font-size: 15px; } .b-bday .blk-d { color: #ffe1ed; }
+
+.tip { background: var(--oro-soft); border-radius: 10px; padding: 9px 11px; margin-bottom: 8px; font-size: 11px; color: var(--t2); line-height: 1.5; border-left: 3px solid var(--oro); }
+.tip b { color: var(--t1); }
+
+.wx { display: flex; align-items: center; gap: 10px; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 8px 11px; margin-bottom: 8px; }
+.wx-t { font-size: 16px; font-weight: 700; white-space: nowrap; }
+.wx-desc { font-size: 11px; color: var(--t2); }
+.wx-out { font-size: 11px; color: var(--t3); margin-top: 2px; line-height: 1.4; }
+
+.tl { margin-bottom: 8px; }
+.tli { display: flex; gap: 9px; padding: 7px 0; border-bottom: 1px solid var(--line); }
+.tli:last-child { border-bottom: none; }
+.tl-tm { font-size: 10px; color: var(--t3); width: 46px; flex-shrink: 0; padding-top: 2px; font-variant-numeric: tabular-nums; }
+.tl-dot { width: 7px; height: 7px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
+.tl-tt { font-size: 12px; font-weight: 700; }
+.tl-td { font-size: 11px; color: var(--t2); margin-top: 2px; line-height: 1.4; }
+
+.links { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+.lk { font-size: 11px; font-weight: 600; color: var(--azul); background: var(--azul-soft); border-radius: 20px; padding: 5px 10px; text-decoration: none; }
+
+.gcal-btn { display: flex; align-items: center; justify-content: center; gap: 8px; background: #1a73e8; border-radius: 11px; padding: 11px; border: none; width: 100%; font-family: inherit; cursor: pointer; min-height: 44px; }
+.gcal-btn span { font-size: 13px; font-weight: 700; color: #fff; }
+.gcal-icon { width: 20px; height: 20px; flex-shrink: 0; }
+
+/* VUELOS / HOTEL */
+.sdiv { font-size: 11px; font-weight: 700; color: var(--t3); text-transform: uppercase; letter-spacing: .07em; margin: 14px 0 8px; }
+.sdiv:first-child { margin-top: 2px; }
+.fb { background: var(--card); border-radius: 14px; border: 1px solid var(--line); padding: 12px; margin-bottom: 10px; }
+.fb-al { font-size: 11px; font-weight: 700; color: var(--t3); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 7px; }
+.fb-rt { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+.fb-ia { font-size: 22px; font-weight: 800; }
+.fb-ar { flex: 1; text-align: center; font-size: 16px; color: var(--t3); }
+.fb-tm { font-size: 12px; color: var(--t3); margin-top: 2px; }
+.fb-gr { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; border-top: 1px solid var(--line); padding-top: 8px; }
+.ff { font-size: 10px; color: var(--t3); }
+.ff span { display: block; font-size: 12px; font-weight: 700; color: var(--t1); margin-top: 1px; word-break: break-word; }
+.pend { color: var(--barro) !important; }
+
+.edit { background: var(--card); border-radius: 14px; border: 1px dashed var(--rosa); padding: 12px; margin-bottom: 10px; }
+.edit-t { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+.edit-d { font-size: 11px; color: var(--t3); margin-bottom: 10px; line-height: 1.4; }
+.fld { margin-bottom: 8px; }
+.fld label { display: block; font-size: 10px; color: var(--t3); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 3px; }
+.fld input { width: 100%; font-size: 15px; padding: 9px 10px; border-radius: 9px; border: 1px solid var(--line); background: var(--bg); color: var(--t1); font-family: inherit; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.save-btn { width: 100%; background: var(--rosa); color: #fff; border: none; border-radius: 10px; padding: 11px; font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer; }
+.saved { font-size: 11px; color: var(--verde); text-align: center; margin-top: 6px; min-height: 14px; }
+
+/* CALENDAR */
+.cal-section { background: var(--card); border-radius: 14px; border: 1px solid var(--line); padding: 14px; margin-bottom: 12px; }
+.cal-sec-title { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+.cal-sec-desc { font-size: 12px; color: var(--t3); margin-bottom: 12px; line-height: 1.5; }
+.cal-ev { display: flex; align-items: center; gap: 10px; border-radius: 11px; border: 1px solid var(--line); padding: 10px 12px; margin-bottom: 7px; cursor: pointer; min-height: 44px; background: var(--card); width: 100%; font-family: inherit; text-align: left; color: var(--t1); }
+.cal-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.cal-ev-info { flex: 1; min-width: 0; }
+.cal-ev-name { font-size: 12px; font-weight: 700; }
+.cal-ev-date { font-size: 11px; color: var(--t3); margin-top: 1px; }
+.cal-add { font-size: 12px; font-weight: 700; color: #1a73e8; flex-shrink: 0; }
+
+/* CHECKLIST */
+.prog-wrap { background: var(--card); border-radius: 14px; border: 1px solid var(--line); padding: 14px; margin-bottom: 14px; }
+.prog-title { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+.prog-sub { font-size: 12px; color: var(--t3); margin-bottom: 10px; }
+.prog-bar { height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; margin-bottom: 6px; }
+.prog-fill { height: 100%; background: var(--rosa); border-radius: 4px; transition: width .4s; }
+.prog-pct { font-size: 14px; font-weight: 800; color: var(--rosa); }
+.cl-group { background: var(--card); border-radius: 14px; border: 1px solid var(--line); margin-bottom: 10px; overflow: hidden; }
+.cl-group-title { font-size: 13px; font-weight: 700; padding: 11px 14px 8px; border-bottom: 1px solid var(--line); }
+.cl-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--line); min-height: 48px; }
+.cl-item:last-child { border-bottom: none; }
+.cl-item input { width: 22px; height: 22px; flex-shrink: 0; accent-color: var(--rosa); cursor: pointer; }
+.cl-label { font-size: 14px; line-height: 1.3; cursor: pointer; }
+.cl-label.done { color: var(--t3); text-decoration: line-through; }
+</style>
+</head>
+<body>
+<div class="app-shell">
+
+  <div class="hero">
+    <div class="papel"><span style="background:#d6246e"></span><span style="background:#f2a516"></span><span style="background:#0f9b6e"></span><span style="background:#2a6fd6"></span><span style="background:#7b3fc4"></span><span style="background:#d6246e"></span><span style="background:#f2a516"></span><span style="background:#0f9b6e"></span><span style="background:#2a6fd6"></span><span style="background:#7b3fc4"></span></div>
+    <div class="hero-eye">Viaje en familia</div>
+    <div class="hero-title">Ciudad de <em>México</em></div>
+    <div class="hero-sub">Sáb 17 — Mié 21 de octubre 2026 · Base en Nuevo Polanco</div>
+    <div class="pax"><span>Daniela</span><span>Paola</span></div>
+    <div class="hero-row">
+      <div class="hs"><div class="hs-n">2</div><div class="hs-l">vuelos</div></div>
+      <div class="hs"><div class="hs-n">1</div><div class="hs-l">Airbnb</div></div>
+      <div class="hs"><div class="hs-n">5</div><div class="hs-l">días</div></div>
+      <div class="hs"><div class="hs-n">🎂</div><div class="hs-l">mié 21</div></div>
+    </div>
+    <div class="count" id="countdown"></div>
+  </div>
+
+  <div class="nav-bar">
+    <button class="nav-btn on" onclick="goTab('itin',this)"><span class="ni">🗓</span>Itinerario</button>
+    <button class="nav-btn" onclick="goTab('vuelos',this)"><span class="ni">✈</span>Vuelos</button>
+    <button class="nav-btn" onclick="goTab('hotel',this)"><span class="ni">🏨</span>Hotel</button>
+    <button class="nav-btn" onclick="goTab('calendar',this)"><span class="ni">📅</span>Calendar</button>
+    <button class="nav-btn" onclick="goTab('check',this)"><span class="ni">☑</span>Pendientes</button>
+  </div>
+
+  <div class="scroll-area">
+
+  <!-- ═══ ITINERARIO ═══ -->
+  <div id="tab-itin" class="page active">
+
+    <!-- SÁB 17 -->
+    <div class="day-card">
+      <svg class="day-vis" viewBox="0 0 390 104" preserveAspectRatio="xMidYMid slice"><rect width="390" height="104" fill="#f6c27a"/><circle cx="320" cy="34" r="16" fill="#fff3d6"/><rect x="0" y="70" width="390" height="34" fill="#2f6b3c"/><ellipse cx="60" cy="70" rx="46" ry="22" fill="#3f8a4d"/><ellipse cx="140" cy="72" rx="40" ry="18" fill="#357a43"/><ellipse cx="300" cy="72" rx="56" ry="22" fill="#3f8a4d"/><rect x="186" y="30" width="18" height="44" fill="#e9d9b8"/><rect x="190" y="18" width="10" height="14" fill="#c9a24a"/><circle cx="195" cy="14" r="5" fill="#d9b04a"/><text x="195" y="97" text-anchor="middle" font-size="11" fill="#fff" font-weight="700" font-family="-apple-system,sans-serif">Nuevo Polanco · Soumaya · Antara</text></svg>
+      <div class="day-head" onclick="tog(this)">
+        <div class="day-circle" style="background:var(--azul-soft);color:var(--azul)">17</div>
+        <div class="day-meta"><div class="day-name">Llegada + Soumaya + Antara</div><div class="day-date">Sábado 17 de octubre</div></div>
+        <div class="day-tag" style="background:var(--azul-soft);color:var(--azul)">Vuelo</div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="day-body">
+        <div class="fl"><div class="fl-al" data-k="airline_out_label">Vuelo de ida</div><div class="fl-row"><div class="fl-city"><div class="fl-iata">GUA</div><div class="fl-time" data-k="dep_out">por confirmar</div></div><div class="fl-mid"><div class="fl-num" data-k="num_out">—</div><div class="fl-line"></div></div><div class="fl-city"><div class="fl-iata">MEX</div><div class="fl-time">10:30 am</div></div></div></div>
+        <div class="tl">
+          <div class="tli"><div class="tl-tm">10:30</div><div class="tl-dot" style="background:var(--azul)"></div><div><div class="tl-tt">Llegada a CDMX (AICM)</div><div class="tl-td">Migración, maleta documentada y Uber/taxi autorizado hacia Nuevo Polanco (~35–60 min).</div></div></div>
+          <div class="tli"><div class="tl-tm">12:00</div><div class="tl-dot" style="background:var(--verde)"></div><div><div class="tl-tt">Airbnb — dejar maletas</div><div class="tl-td">Polarea, Nuevo Polanco. Confirmar con Chris (anfitrión) si se puede dejar equipaje antes del check-in.</div></div></div>
+          <div class="tli"><div class="tl-tm">1:30</div><div class="tl-dot" style="background:var(--rosa)"></div><div><div class="tl-tt">Comida cerca del Airbnb</div><div class="tl-td">Plaza Carso o Antara, todo a pie. Sin complicarse después del vuelo.</div></div></div>
+          <div class="tli"><div class="tl-tm">3:00</div><div class="tl-dot" style="background:var(--oro)"></div><div><div class="tl-tt">Paseo por el Museo Soumaya</div><div class="tl-td">A pasos del Airbnb y gratis. ~1 h: subir al último piso y bajar por la rampa recorriendo las salas.</div></div></div>
+          <div class="tli"><div class="tl-tm">4:30</div><div class="tl-dot" style="background:var(--barro)"></div><div><div class="tl-tt">🛍 Compras en Antara</div><div class="tl-td">~2 h. Centro comercial al aire libre, a ~10 min caminando. Café ahí mismo.</div></div></div>
+          <div class="tli"><div class="tl-tm">7:30</div><div class="tl-dot" style="background:var(--rosa)"></div><div><div class="tl-tt">Cena en Polanco</div><div class="tl-td">Ver opciones abajo.</div></div></div>
+        </div>
+        <div class="blk b-rest"><div class="blk-n">Dante Brasa y Fuego</div><div class="blk-d">Polanco · Cena con ambiente especial.</div></div>
+        <div class="blk b-rest"><div class="blk-n">Rosa Negra</div><div class="blk-d">Polanco · Más animado, plan de celebración.</div></div>
+        <div class="tip"><b>Objetivo del día:</b> cero estrés después del vuelo. Todo se hace caminando desde el Airbnb.</div>
+        <div class="wx"><div class="wx-t">11–22°C</div><div><div class="wx-desc">Templado; posible lluvia por la tarde</div><div class="wx-out">Ropa cómoda de vuelo + chaqueta ligera</div></div></div>
+        <button class="gcal-btn" onclick="calDay(1)"><svg class="gcal-icon" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#fff"/><rect x="3" y="5" width="18" height="16" rx="2" fill="none" stroke="#4285F4" stroke-width="1.5"/><line x1="3" y1="10" x2="21" y2="10" stroke="#4285F4" stroke-width="1.5"/><line x1="8" y1="3" x2="8" y2="7" stroke="#EA4335" stroke-width="1.5" stroke-linecap="round"/><line x1="16" y1="3" x2="16" y2="7" stroke="#EA4335" stroke-width="1.5" stroke-linecap="round"/></svg><span>Agregar a Google Calendar</span></button>
+      </div>
+    </div>
+
+    <!-- DOM 18 -->
+    <div class="day-card">
+      <svg class="day-vis" viewBox="0 0 390 104" preserveAspectRatio="xMidYMid slice"><rect width="390" height="104" fill="#bfe0ef"/><polygon points="110,64 195,34 280,64" fill="#e8dcc4"/><rect x="120" y="62" width="150" height="20" fill="#f1e7d2"/><rect x="186" y="22" width="18" height="16" fill="#e8dcc4"/><g fill="#c9b897"><rect x="132" y="66" width="8" height="12"/><rect x="152" y="66" width="8" height="12"/><rect x="172" y="66" width="8" height="12"/><rect x="210" y="66" width="8" height="12"/><rect x="230" y="66" width="8" height="12"/><rect x="250" y="66" width="8" height="12"/></g><rect x="0" y="80" width="390" height="24" fill="#2f7a46"/><ellipse cx="40" cy="80" rx="50" ry="20" fill="#3d9154"/><ellipse cx="350" cy="80" rx="54" ry="22" fill="#3d9154"/><text x="195" y="98" text-anchor="middle" font-size="11" fill="#fff" font-weight="700" font-family="-apple-system,sans-serif">Chapultepec · Condesa · Roma</text></svg>
+      <div class="day-head" onclick="tog(this)">
+        <div class="day-circle" style="background:var(--verde-soft);color:var(--verde)">18</div>
+        <div class="day-meta"><div class="day-name">Chapultepec + Condesa/Roma</div><div class="day-date">Domingo 18 de octubre</div></div>
+        <div class="day-tag" style="background:var(--verde-soft);color:var(--verde)">Parques</div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="day-body">
+        <div class="tl">
+          <div class="tli"><div class="tl-tm">9:00</div><div class="tl-dot" style="background:var(--rosa)"></div><div><div class="tl-tt">Desayuno</div><div class="tl-td">En Polanco antes de salir.</div></div></div>
+          <div class="tli"><div class="tl-tm">10:00</div><div class="tl-dot" style="background:var(--verde)"></div><div><div class="tl-tt">Bosque + Castillo de Chapultepec</div><div class="tl-td">Subir al castillo, disfrutar las vistas y bajar caminando. No hacer todo el bosque.</div></div></div>
+          <div class="tli"><div class="tl-tm">1:30</div><div class="tl-dot" style="background:var(--rosa)"></div><div><div class="tl-tt">Comida</div><div class="tl-td">De camino o ya en Condesa.</div></div></div>
+          <div class="tli"><div class="tl-tm">3:30</div><div class="tl-dot" style="background:var(--barro)"></div><div><div class="tl-tt">Paseo Condesa → Roma</div><div class="tl-td">Parque México → Av. Amsterdam → Parque España → Roma Norte. Espontáneo: cafés, tiendas, sentarse en un parque.</div></div></div>
+          <div class="tli"><div class="tl-tm">Noche</div><div class="tl-dot" style="background:var(--rosa)"></div><div><div class="tl-tt">Cena tranquila</div><div class="tl-td">Sin reservas; lo que se antoje en Roma o de vuelta en Polanco.</div></div></div>
+        </div>
+        <div class="blk b-rest"><div class="blk-n">BUNA</div><div class="blk-d">Café de especialidad mexicano · Roma/Condesa.</div></div>
+        <div class="blk b-rest"><div class="blk-n">Cardinal Casa de Café</div><div class="blk-d">Café de especialidad · Roma Norte.</div></div>
+        <div class="tip"><b>Domingo en el Castillo:</b> es gratis para residentes mexicanos y se llena. Lleguen a la apertura (9:00) y lleven efectivo/tarjeta para la entrada.</div>
+        <div class="wx"><div class="wx-t">11–22°C</div><div><div class="wx-desc">Soleado en la mañana</div><div class="wx-out">Tenis cómodos — mucho caminar · bloqueador</div></div></div>
+        <button class="gcal-btn" onclick="calDay(2)"><svg class="gcal-icon" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#fff"/><rect x="3" y="5" width="18" height="16" rx="2" fill="none" stroke="#4285F4" stroke-width="1.5"/><line x1="3" y1="10" x2="21" y2="10" stroke="#4285F4" stroke-width="1.5"/><line x1="8" y1="3" x2="8" y2="7" stroke="#EA4335" stroke-width="1.5" stroke-linecap="round"/><line x1="16" y1="3" x2="16" y2="7" stroke="#EA4335" stroke-width="1.5" stroke-linecap="round"/></svg><span>Agregar a Google Calendar</span></button>
+      </div>
+    </div>
+
+    <!-- LUN 19 -->
+    <div class="day-card">
+      <svg class="day-vis" viewBox="0 0 390 104" preserveAspectRatio="xMidYMid slice"><rect width="390" height="104" fill="#9fd3c7"/><rect x="0" y="62" width="390" height="42" fill="#2b8c86"/><path d="M0 70 Q 50 66 100 70 T 200 70 T 300 70 T 390 70" stroke="#7fd0c8" stroke-width="2" fill="none"/><ellipse cx="30" cy="60" rx="40" ry="16" fill="#3f8a4d"/><ellipse cx="370" cy="60" rx="44" ry="18" fill="#3f8a4d"/><path d="M110 74 L280 74 L266 88 L124 88 Z" fill="#7a3a18"/><rect x="128" y="48" width="134" height="26" fill="#f2a516"/><rect x="128" y="44" width="134" height="7" fill="#d6246e"/><text x="195" y="66" text-anchor="middle" font-size="12" fill="#7a1d45" font-weight="800" font-family="Georgia,serif">FAMILIA</text><text x="195" y="100" text-anchor="middle" font-size="11" fill="#fff" font-weight="700" font-family="-apple-system,sans-serif">Coyoacán · Xochimilco</text></svg>
+      <div class="day-head" onclick="tog(this)">
+        <div class="day-circle" style="background:var(--barro-soft);color:var(--barro)">19</div>
+        <div class="day-meta"><div class="day-name">Coyoacán + Xochimilco</div><div class="day-date">Lunes 19 de octubre</div></div>
+        <div class="day-tag" style="background:var(--barro-soft);color:var(--barro)">★ Favorito</div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="day-body">
+        <div class="tl">
+          <div class="tli"><div class="tl-tm">9:00</div><div class="tl-dot" style="background:var(--barro)"></div><div><div class="tl-tt">Coyoacán temprano</div><div class="tl-td">Plaza Hidalgo → Jardín Centenario → calles del centro de Coyoacán → Mercado de Coyoacán → cafés.</div></div></div>
+          <div class="tli"><div class="tl-tm">12:30</div><div class="tl-dot" style="background:var(--rosa)"></div><div><div class="tl-tt">Comida en Coyoacán</div><div class="tl-td">Corazón de Maguey o Los Danzantes, ambos en el Jardín Centenario.</div></div></div>
+          <div class="tli"><div class="tl-tm">2:30</div><div class="tl-dot" style="background:var(--verde)"></div><div><div class="tl-tt">Trajinera privada en Xochimilco</div><div class="tl-td">~2 horas, solo la familia, con comida, bebidas y música si quieren. Tranquilo, no fiesta.</div></div></div>
+          <div class="tli"><div class="tl-tm">5:30</div><div class="tl-dot" style="background:var(--azul)"></div><div><div class="tl-tt">Regreso al hotel</div><div class="tl-td">Considerar 60–90 min por tráfico.</div></div></div>
+          <div class="tli"><div class="tl-tm">Noche</div><div class="tl-dot" style="background:var(--rosa)"></div><div><div class="tl-tt">Cena tranquila cerca del hotel</div><div class="tl-td"></div></div></div>
+        </div>
+        <div class="blk b-rest"><div class="blk-n">Corazón de Maguey</div><div class="blk-d">Jardín Centenario · Cocina mexicana y mezcal, buena para sentarse en la plaza.</div></div>
+        <div class="blk b-rest"><div class="blk-n">Los Danzantes</div><div class="blk-d">Jardín Centenario · Más "experiencia" gastronómica.</div></div>
+        <div class="blk b-act"><div class="blk-n">Embarcaderos</div><div class="blk-d">Nativitas, Zacapa y Las Flores = tradicionales. Cuemanco y Fernando Celada = más tranquilos, zona natural y aves.</div></div>
+        <div class="blk b-act"><div class="blk-n">Ajolotours · 2Travel Amigas</div><div class="blk-d">Operadores con trajinera privada y recorridos familiares. Reservar antes y acordar precio, duración y qué incluye.</div></div>
+        <div class="tip"><b>⚠ Casa Azul (Frida Kahlo) cierra los lunes.</b> Si quieren entrar, habría que moverla a otro día; si no, ese tiempo se usa caminando Coyoacán.</div>
+        <div class="wx"><div class="wx-t">11–22°C</div><div><div class="wx-desc">Sol fuerte en el agua; lluvia posible tarde</div><div class="wx-out">Gorra, bloqueador, impermeable ligero</div></div></div>
+        <button class="gcal-btn" onclick="calDay(3)"><svg class="gcal-icon" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#fff"/><rect x="3" y="5" width="18" height="16" rx="2" fill="none" stroke="#4285F4" stroke-width="1.5"/><line x1="3" y1="10" x2="21" y2="10" stroke="#4285F4" stroke-width="1.5"/><line x1="8" y1="3" x2="8" y2="7" stroke="#EA4335" stroke-width="1.5" stroke-linecap="round"/><line x1="16" y1="3" x2="16" y2="7" stroke="#EA4335" stroke-width="1.5" stroke-linecap="round"/></svg><span>Agregar a Google Calendar</span></button>
+      </div>
+    </div>
+
+    <!-- MAR 20 -->
+    <div class="day-card">
+      <svg class="day-vis" viewBox="0 0 390 104" preserveAspectRatio="xMidYMid slice"><rect width="390" height="104" fill="#e9b98a"/><rect x="0" y="80" width="390" height="24" fill="#b88a5e"/><rect x="40" y="40" width="120" height="42" fill="#d9c3a0"/><polygon points="40,40 70,22 70,40" fill="#cbb38c"/><polygon points="160,40 130,22 130,40" fill="#cbb38c"/><rect x="62" y="14" width="10" height="28" fill="#cbb38c"/><rect x="128" y="14" width="10" height="28" fill="#cbb38c"/><rect x="230" y="44" width="120" height="38" fill="#f1ece2"/><ellipse cx="290" cy="40" rx="30" ry="18" fill="#e3b54a"/><rect x="190" y="30" width="3" height="52" fill="#5a3a20"/><rect x="193" y="30" width="22" height="13" fill="#0f7a5a"/><rect x="193" y="30" width="7" height="13" fill="#0f7a5a"/><rect x="200" y="30" width="8" height="13" fill="#fff"/><rect x="208" y="30" width="7" height="13" fill="#c8102e"/><text x="195" y="98" text-anchor="middle" font-size="11" fill="#fff" font-weight="700" font-family="-apple-system,sans-serif">Centro Histórico · Bellas Artes</text></svg>
+      <div class="day-head" onclick="tog(this)">
+        <div class="day-circle" style="background:var(--oro-soft);color:var(--oro)">20</div>
+        <div class="day-meta"><div class="day-name">Centro Histórico + Antropología</div><div class="day-date">Martes 20 de octubre</div></div>
+        <div class="day-tag" style="background:var(--oro-soft);color:var(--oro)">Cultura</div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="day-body">
+        <div class="tl">
+          <div class="tli"><div class="tl-tm">9:00</div><div class="tl-dot" style="background:var(--rosa)"></div><div><div class="tl-tt">Desayuno y salida</div><div class="tl-td"></div></div></div>
+          <div class="tli"><div class="tl-tm">10:00</div><div class="tl-dot" style="background:var(--oro)"></div><div><div class="tl-tt">Ruta a pie por el Centro</div><div class="tl-td">Zócalo → Catedral → Templo Mayor → Palacio Nacional → calles del Centro → Bellas Artes → Alameda Central. Caminar y sentir, no entrar a todo.</div></div></div>
+          <div class="tli"><div class="tl-tm">1:30</div><div class="tl-dot" style="background:var(--rosa)"></div><div><div class="tl-tt">Comida en el Centro</div><div class="tl-td"></div></div></div>
+          <div class="tli"><div class="tl-tm">3:00</div><div class="tl-dot" style="background:var(--oro)"></div><div><div class="tl-tt">Opción B · Museo Nacional de Antropología</div><div class="tl-td">Queda en Chapultepec, de camino al hotel. Ir directo desde el Centro.</div></div></div>
+          <div class="tli"><div class="tl-tm">Tarde</div><div class="tl-dot" style="background:var(--barro)"></div><div><div class="tl-tt">Opción A · Polanco y café</div><div class="tl-td">Si están cansados: volver al hotel y pasear tranquilo.</div></div></div>
+          <div class="tli"><div class="tl-tm">Noche</div><div class="tl-dot" style="background:var(--rosa)"></div><div><div class="tl-tt">Cena — víspera del cumpleaños</div><div class="tl-td">Algo sencillo; mañana es el día especial.</div></div></div>
+        </div>
+        <div class="tip"><b>⚠ Antropología cierra a las 6:00 pm</b> (mar–dom). A las 5:30 ya no da tiempo; mejor llegar ~3:00 y darle 2–2.5 h. Prioridad: Sala Mexica (Piedra del Sol) y Sala Maya.</div>
+        <div class="tip"><b>Buen día:</b> Templo Mayor y Antropología cierran los lunes; martes es buen día para ambos.</div>
+        <div class="wx"><div class="wx-t">11–22°C</div><div><div class="wx-desc">Sol en el Zócalo, poca sombra</div><div class="wx-out">Gorra, agua, zapatos cómodos</div></div></div>
+        <button class="gcal-btn" onclick="calDay(4)"><svg class="gcal-icon" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#fff"/><rect x="3" y="5" width="18" height="16" rx="2" fill="none" stroke="#4285F4" stroke-width="1.5"/><line x1="3" y1="10" x2="21" y2="10" stroke="#4285F4" stroke-width="1.5"/><line x1="8" y1="3" x2="8" y2="7" stroke="#EA4335" stroke-width="1.5" stroke-linecap="round"/><line x1="16" y1="3" x2="16" y2="7" stroke="#EA4335" stroke-width="1.5" stroke-linecap="round"/></svg><span>Agregar a Google Calendar</span></button>
+      </div>
+    </div>
+
+    <!-- MIÉ 21 -->
+    <div class="day-card bday">
+      <svg class="day-vis" viewBox="0 0 390 104" preserveAspectRatio="xMidYMid slice"><rect width="390" height="104" fill="#8e1650"/><g fill="#ffd1e3" opacity=".9"><circle cx="40" cy="20" r="3"/><circle cx="90" cy="60" r="2"/><circle cx="330" cy="24" r="3"/><circle cx="360" cy="70" r="2"/><circle cx="260" cy="14" r="2"/></g><rect x="150" y="56" width="90" height="30" rx="4" fill="#fff3f7"/><rect x="160" y="40" width="70" height="18" rx="3" fill="#ffd1e3"/><rect x="150" y="66" width="90" height="5" fill="#d6246e"/><rect x="186" y="26" width="3" height="14" fill="#f2a516"/><rect x="201" y="26" width="3" height="14" fill="#0f9b6e"/><ellipse cx="187.5" cy="23" rx="2.5" ry="4" fill="#ffcf4a"/><ellipse cx="202.5" cy="23" rx="2.5" ry="4" fill="#ffcf4a"/><text x="195" y="100" text-anchor="middle" font-size="11" fill="#fff" font-weight="700" font-family="-apple-system,sans-serif">¡Feliz cumpleaños!</text></svg>
+      <div class="day-head" onclick="tog(this)">
+        <div class="day-circle" style="background:var(--rosa);color:#fff">21</div>
+        <div class="day-meta"><div class="day-name">Cumpleaños + regreso</div><div class="day-date">Miércoles 21 de octubre</div></div>
+        <div class="day-tag" style="background:var(--rosa);color:#fff">🎂</div>
+        <div class="chevron">›</div>
+      </div>
+      <div class="day-body">
+        <div class="blk b-bday"><div class="blk-n">Día bonito, sin prisa</div><div class="blk-d">Todo en Polanco, cerca del aeropuerto. Nada que dependa del tráfico del sur.</div></div>
+        <div class="tl">
+          <div class="tli"><div class="tl-tm">9:00</div><div class="tl-dot" style="background:var(--rosa)"></div><div><div class="tl-tt">Desayuno largo y especial</div><div class="tl-td">En Polanco. Nada de levantarse temprano.</div></div></div>
+          <div class="tli"><div class="tl-tm">10:30</div><div class="tl-dot" style="background:var(--verde)"></div><div><div class="tl-tt">Parque Lincoln + Polanco</div><div class="tl-td">Caminar juntos, café, fotos, compras si quiere algo.</div></div></div>
+          <div class="tli"><div class="tl-tm">12:00</div><div class="tl-dot" style="background:var(--rosa)"></div><div><div class="tl-tt">🛍 Compras</div><div class="tl-td">Masaryk, Antara o Miyana, lo que se le antoje.</div></div></div>
+          <div class="tli"><div class="tl-tm">1:00</div><div class="tl-dot" style="background:var(--rosa)"></div><div><div class="tl-tt">Almuerzo de cumpleaños</div><div class="tl-td">La comida que van a recordar del viaje.</div></div></div>
+          <div class="tli"><div class="tl-tm">2:45</div><div class="tl-dot" style="background:var(--verde)"></div><div><div class="tl-tt">Airbnb — recoger maletas</div><div class="tl-td">Pedir late checkout o dejar maletas en el edificio; confirmar con el anfitrión.</div></div></div>
+          <div class="tli"><div class="tl-tm">4:00</div><div class="tl-dot" style="background:var(--azul)"></div><div><div class="tl-tt">Llegar al aeropuerto</div><div class="tl-td">Salir del Airbnb ~3:00. Volaris sale 6:55 pm.</div></div></div>
+        </div>
+        <div class="blk b-rest"><div class="blk-n">Pujol</div><div class="blk-d">Polanco · Alta gastronomía. Reservar con varias semanas de anticipación.</div></div>
+        <div class="blk b-rest"><div class="blk-n">Cuerno Masaryk</div><div class="blk-d">Polanco · Más relajado pero elegante.</div></div>
+        <div class="fl"><div class="fl-al" data-k="airline_ret_label">Vuelo de regreso</div><div class="fl-row"><div class="fl-city"><div class="fl-iata">MEX</div><div class="fl-time">6:55 pm</div></div><div class="fl-mid"><div class="fl-num" data-k="num_ret">—</div><div class="fl-line"></div></div><div class="fl-city"><div class="fl-iata">GUA</div><div class="fl-time" data-k="arr_ret">por confirmar</div></div></div></div>
+        <div class="wx"><div class="wx-t">11–22°C</div><div><div class="wx-desc">Templado</div><div class="wx-out">Outfit bonito para el almuerzo, cómodo para el vuelo</div></div></div>
+        <button class="gcal-btn" onclick="calDay(5)"><svg class="gcal-icon" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="#fff"/><rect x="3" y="5" width="18" height="16" rx="2" fill="none" stroke="#4285F4" stroke-width="1.5"/><line x1="3" y1="10" x2="21" y2="10" stroke="#4285F4" stroke-width="1.5"/><line x1="8" y1="3" x2="8" y2="7" stroke="#EA4335" stroke-width="1.5" stroke-linecap="round"/><line x1="16" y1="3" x2="16" y2="7" stroke="#EA4335" stroke-width="1.5" stroke-linecap="round"/></svg><span>Agregar a Google Calendar</span></button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══ VUELOS ═══ -->
+  <div id="tab-vuelos" class="page">
+    <div class="sdiv">Volaris · Tarifa Básica · Daniela y Paola</div>
+    <div class="fb">
+      <div class="fb-al">Volaris · Sáb 17 oct — Ida</div>
+      <div class="fb-rt"><div><div class="fb-ia">GUA</div><div class="fb-tm">8:27 am</div></div><div class="fb-ar">→</div><div style="text-align:right"><div class="fb-ia">MEX</div><div class="fb-tm">10:30 am</div></div></div>
+      <div class="fb-gr"><div class="ff">Fecha<span>Sáb 17 oct</span></div><div class="ff">Duración<span>~3h</span></div><div class="ff">Reserva<span data-k="pnr">—</span></div></div>
+    </div>
+    <div class="fb">
+      <div class="fb-al">Volaris · Mié 21 oct — Regreso</div>
+      <div class="fb-rt"><div><div class="fb-ia">MEX</div><div class="fb-tm">6:55 pm</div></div><div class="fb-ar">→</div><div style="text-align:right"><div class="fb-ia">GUA</div><div class="fb-tm">8:51 pm</div></div></div>
+      <div class="fb-gr"><div class="ff">Fecha<span>Mié 21 oct</span></div><div class="ff">Duración<span>~3h</span></div><div class="ff">En AICM<span>4:00 pm</span></div></div>
+      <a class="lk" style="display:block;text-align:center;margin-top:10px;padding:10px;background:#a12a8c;color:#fff;border-radius:10px" href="https://www.volaris.com" target="_blank" rel="noopener">Check-in / Mis viajes Volaris</a>
+    </div>
+    <div class="sdiv">Equipaje incluido (por persona)</div>
+    <div class="fb">
+      <div class="tl" style="margin:0">
+        <div class="tli"><div class="tl-tm">✓</div><div class="tl-dot" style="background:var(--verde)"></div><div><div class="tl-tt">1 objeto personal de mano</div><div class="tl-td">Debe caber bajo el asiento (bolso/mochila pequeña).</div></div></div>
+        <div class="tli"><div class="tl-tm">✓</div><div class="tl-dot" style="background:var(--verde)"></div><div><div class="tl-tt">1 maleta documentada de 15 kg</div><div class="tl-td">Ojo con compras en CDMX: 15 kg se llenan rápido.</div></div></div>
+        <div class="tli"><div class="tl-tm">✗</div><div class="tl-dot" style="background:var(--barro)"></div><div><div class="tl-tt">Sin maleta de mano en cabina</div><div class="tl-td">Volaris cobra extra por carry-on si no está en la tarifa.</div></div></div>
+      </div>
+    </div>
+    <div class="edit">
+      <div class="edit-t">✏️ Código de reserva</div>
+      <div class="edit-d">Si son dos reservas, ponlas separadas por coma.</div>
+      <div class="fld"><label>Código(s) Volaris</label><input id="f_pnr" placeholder="Ej. ABC123, DEF456" autocapitalize="characters"></div>
+      <button class="save-btn" onclick="saveData()">Guardar</button>
+      <div class="saved" id="saved1"></div>
+    </div>
+    <div class="tip"><b>Aeropuerto:</b> confirmen en el pase de abordar si salen de Terminal 1 o 2 del AICM y hagan check-in en línea antes del vuelo.</div>
+  </div>
+
+  <!-- ═══ HOTEL ═══ -->
+  <div id="tab-hotel" class="page">
+    <div class="sdiv">Base de todo el viaje</div>
+    <div class="fb">
+      <div class="blk b-hotel" style="margin-bottom:0">
+        <div class="blk-n" style="font-size:15px">Moderno 2BR con alberca en roof</div>
+        <div class="blk-d">Airbnb · Polarea, Nuevo Polanco · Anfitrión: Chris</div>
+        <div class="blk-d">2 recámaras · 2 baños · cocina · lavandería · alberca en rooftop · gimnasio · seguridad 24/7</div>
+        <div class="blk-d">Noches: 17, 18, 19 y 20 oct · Salida mié 21</div>
+        <div class="blk-d">Cerca: Museo Soumaya, Plaza Carso, Antara, Miyana</div>
+        <div class="blk-d">Dirección: <b data-k="hotel_addr">llega con la confirmación</b></div>
+        <div class="blk-d">Confirmación: <b data-k="hotel_conf">—</b></div>
+      </div>
+    </div>
+    <div class="links">
+      <a class="lk" href="https://www.airbnb.cl/rooms/1557278055143443877" target="_blank" rel="noopener">🏠 Ver en Airbnb</a>
+      <a class="lk" id="mapsLink" href="#" target="_blank" rel="noopener">📍 Abrir en Maps</a>
+    </div>
+    <div class="edit">
+      <div class="edit-t">✏️ Datos de la reserva</div>
+      <div class="fld"><label>Dirección exacta</label><input id="f_hotel_addr" placeholder="Llega en la confirmación de Airbnb"></div>
+      <div class="fld"><label>Confirmación</label><input id="f_hotel_conf" placeholder="Código de Airbnb"></div>
+      <button class="save-btn" onclick="saveData()">Guardar</button>
+      <div class="saved" id="saved2"></div>
+    </div>
+    <div class="tip"><b>Ojo:</b> Nuevo Polanco no es el Polanco de Masaryk. Parque Lincoln y Masaryk quedan a ~10 min en Uber (o ~30 min caminando).</div>
+    <div class="sdiv">Distancias desde el Airbnb</div>
+    <div class="fb">
+      <div class="tl" style="margin:0">
+        <div class="tli"><div class="tl-tm">A pie</div><div class="tl-dot" style="background:var(--rosa)"></div><div><div class="tl-tt">Soumaya · Plaza Carso · Antara</div></div></div>
+        <div class="tli"><div class="tl-tm">10 min</div><div class="tl-dot" style="background:var(--rosa)"></div><div><div class="tl-tt">Masaryk / Parque Lincoln</div></div></div>
+        <div class="tli"><div class="tl-tm">15–20</div><div class="tl-dot" style="background:var(--verde)"></div><div><div class="tl-tt">Chapultepec / Antropología</div></div></div>
+        <div class="tli"><div class="tl-tm">20–30</div><div class="tl-dot" style="background:var(--barro)"></div><div><div class="tl-tt">Condesa / Roma</div></div></div>
+        <div class="tli"><div class="tl-tm">30–45</div><div class="tl-dot" style="background:var(--oro)"></div><div><div class="tl-tt">Centro Histórico</div></div></div>
+        <div class="tli"><div class="tl-tm">35–60</div><div class="tl-dot" style="background:var(--azul)"></div><div><div class="tl-tt">Aeropuerto (AICM)</div></div></div>
+        <div class="tli"><div class="tl-tm">45–75</div><div class="tl-dot" style="background:var(--barro)"></div><div><div class="tl-tt">Coyoacán</div></div></div>
+        <div class="tli"><div class="tl-tm">60–90</div><div class="tl-dot" style="background:var(--verde)"></div><div><div class="tl-tt">Xochimilco</div></div></div>
+      </div>
+    </div>
+    <div class="tip">Tiempos en Uber, aproximados; en hora pico pueden duplicarse.</div>
+  </div>
+
+  <!-- ═══ CALENDAR ═══ -->
+  <div id="tab-calendar" class="page">
+    <div class="cal-section">
+      <div class="cal-sec-title">Agregar a Google Calendar</div>
+      <div class="cal-sec-desc">Cada botón abre Google Calendar con el evento prellenado (hora de CDMX). Tócalos uno por uno.</div>
+      <div id="calList"></div>
+    </div>
+  </div>
+
+  <!-- ═══ PENDIENTES ═══ -->
+  <div id="tab-check" class="page">
+    <div class="prog-wrap">
+      <div class="prog-title">Antes de salir</div>
+      <div class="prog-sub" id="cl-s">Marca conforme avanzas</div>
+      <div class="prog-bar"><div class="prog-fill" id="cl-f" style="width:0%"></div></div>
+      <div class="prog-pct" id="cl-p">0%</div>
+    </div>
+    <div id="clWrap"></div>
+  </div>
+
+  </div>
+</div>
+
+<script>
+var DEF = { airline:'', pnr:'', num_out:'', dep_out:'', num_ret:'', arr_ret:'', hotel_name:'', hotel_addr:'', hotel_conf:'' };
+var D = Object.assign({}, DEF);
+try { var s = localStorage.getItem('cdmx26'); if (s) D = Object.assign(D, JSON.parse(s)); } catch(e) {}
+
+function val(k, fb){ return D[k] && D[k].trim() ? D[k].trim() : fb; }
+function render(){
+  var map = {
+    airline_out_label: 'Volaris · Ida' + (D.pnr ? ' · ' + D.pnr : ''),
+    airline_ret_label: 'Volaris · Regreso' + (D.pnr ? ' · ' + D.pnr : ''),
+    num_out: 'Volaris', dep_out: '8:27 am',
+    num_ret: 'Volaris', arr_ret: '8:51 pm',
+    pnr: val('pnr','—'),
+    hotel_name: val('hotel_name','Hotel en Polanco'), hotel_addr: val('hotel_addr','llega con la confirmación'),
+    hotel_conf: val('hotel_conf','—')
+  };
+  document.querySelectorAll('[data-k]').forEach(function(el){
+    var k = el.getAttribute('data-k'); if (map[k] !== undefined) {
+      el.textContent = map[k];
+      el.classList.toggle('pend', map[k] === '—' || map[k] === 'por confirmar');
+    }
+  });
+  Object.keys(DEF).forEach(function(k){ var i = document.getElementById('f_'+k); if (i) i.value = D[k] || ''; });
+  var q = D.hotel_addr && D.hotel_addr.trim() ? D.hotel_addr + ', Ciudad de México' : 'Museo Soumaya, Nuevo Polanco, Ciudad de México';
+  document.getElementById('mapsLink').href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q);
+  buildCal();
+}
+function saveData(){
+  Object.keys(DEF).forEach(function(k){ var i = document.getElementById('f_'+k); if (i) D[k] = i.value; });
+  try { localStorage.setItem('cdmx26', JSON.stringify(D)); } catch(e) {}
+  render();
+  ['saved1','saved2'].forEach(function(id){ var el=document.getElementById(id); el.textContent='✓ Guardado'; setTimeout(function(){el.textContent='';},1800); });
+}
+
+function goTab(id, el){
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  document.getElementById('tab-'+id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(function(b){ b.classList.remove('on'); });
+  el.classList.add('on');
+  document.querySelector('.scroll-area').scrollTop = 0;
+}
+function tog(h){
+  var b = h.nextElementSibling, c = h.querySelector('.chevron'), o = b.classList.contains('show');
+  b.classList.toggle('show', !o); if (c) c.classList.toggle('open', !o);
+}
+
+function cal(t, d, s, e, l){
+  var u = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+    + '&text=' + encodeURIComponent(t) + '&details=' + encodeURIComponent(d)
+    + '&dates=' + s + '/' + e + '&ctz=America/Mexico_City'
+    + '&location=' + encodeURIComponent(l);
+  window.open(u, '_blank');
+}
+function hotelTxt(){ return 'Airbnb Moderno 2BR, Polarea Nuevo Polanco' + (D.hotel_addr ? ' (' + D.hotel_addr + ')' : '') + (D.hotel_conf ? ', conf. ' + D.hotel_conf : ''); }
+function flOut(){ return 'Volaris GUA 8:27am → MEX 10:30am (Daniela y Paola)' + (D.pnr ? '. Reserva ' + D.pnr : '') + '. 1 objeto personal + 1 maleta 15 kg c/u.'; }
+function flRet(){ return 'Volaris MEX 6:55pm → GUA 8:51pm (Daniela y Paola)' + (D.pnr ? '. Reserva ' + D.pnr : '') + '.'; }
+
+function events(){
+  return [
+    { c:'#a12a8c', n:'✈ Vuelo GUA → MEX (Volaris)', w:'Sáb 17 oct · 8:27 am – 10:30 am',
+      t:'✈ Volaris GUA → MEX', s:'20261017T082700', e:'20261017T103000', l:'Aeropuerto La Aurora, Guatemala',
+      d:'Volaris GUA 8:27am → MEX 10:30am. Daniela y Paola. 1 objeto personal + 1 maleta documentada 15 kg c/u.' },
+    { c:'#1f4e9c', n:'Llegada + Soumaya + Antara', w:'Sáb 17 oct · 10:30 am – 10:00 pm',
+      t:'CDMX · Llegada + Soumaya + Antara', s:'20261017T103000', e:'20261017T220000', l:'Polanco, Ciudad de México',
+      d: flOut() + ' Hotel: ' + hotelTxt() + '. 1:30 comida cerca. 3:00 paseo Museo Soumaya. 4:30 compras en Antara. Cena: Dante Brasa y Fuego o Rosa Negra.' },
+    { c:'#0f7a5a', n:'Chapultepec + Condesa/Roma', w:'Dom 18 oct · 9:00 am – 9:00 pm',
+      t:'CDMX · Chapultepec + Condesa/Roma', s:'20261018T090000', e:'20261018T210000', l:'Castillo de Chapultepec, Ciudad de México',
+      d:'Castillo de Chapultepec 10am (llegar a la apertura). 3:30pm Parque México → Amsterdam → Parque España → Roma Norte. Cafés: BUNA, Cardinal.' },
+    { c:'#c2560f', n:'Coyoacán + Xochimilco', w:'Lun 19 oct · 9:00 am – 7:00 pm',
+      t:'CDMX · Coyoacán + Trajinera Xochimilco', s:'20261019T090000', e:'20261019T190000', l:'Coyoacán, Ciudad de México',
+      d:'9am Coyoacán: Plaza Hidalgo, Jardín Centenario, Mercado. Comida: Corazón de Maguey o Los Danzantes. 2:30pm trajinera privada (Ajolotours / 2Travel Amigas). Casa Azul cierra lunes.' },
+    { c:'#b7860b', n:'Centro Histórico + Antropología', w:'Mar 20 oct · 9:00 am – 6:00 pm',
+      t:'CDMX · Centro Histórico + Antropología', s:'20261020T090000', e:'20261020T180000', l:'Zócalo, Ciudad de México',
+      d:'Zócalo → Catedral → Templo Mayor → Palacio Nacional → Bellas Artes → Alameda. Comida en el Centro. 3pm Museo Nacional de Antropología (cierra 6pm).' },
+    { c:'#d6246e', n:'🎂 Cumpleaños en Polanco', w:'Mié 21 oct · 9:00 am – 3:00 pm',
+      t:'🎂 Cumpleaños — desayuno, Polanco y almuerzo', s:'20261021T090000', e:'20261021T150000', l:'Polanco, Ciudad de México',
+      d:'Desayuno largo. 10:30 Parque Lincoln. 12:00 compras. 1:00pm almuerzo: Pujol o Cuerno Masaryk. 2:45 recoger maletas.' },
+    { c:'#a12a8c', n:'✈ Vuelo MEX → GUA (Volaris)', w:'Mié 21 oct · en AICM 4:00 pm · sale 6:55 pm',
+      t:'✈ Volaris MEX → GUA', s:'20261021T160000', e:'20261021T205100', l:'Aeropuerto Internacional de la Ciudad de México',
+      d: flRet() + ' Estar en el aeropuerto a las 4:00pm; salir del Airbnb ~3:00pm. Llegada GUA 8:51pm (hora Guatemala, misma zona).' }
+  ];
+}
+function buildCal(){
+  var w = document.getElementById('calList'); w.innerHTML = '';
+  events().forEach(function(ev){
+    var b = document.createElement('button'); b.className = 'cal-ev';
+    b.innerHTML = '<div class="cal-dot" style="background:'+ev.c+'"></div><div class="cal-ev-info"><div class="cal-ev-name"></div><div class="cal-ev-date"></div></div><div class="cal-add">+ Cal</div>';
+    b.querySelector('.cal-ev-name').textContent = ev.n; b.querySelector('.cal-ev-date').textContent = ev.w;
+    b.onclick = function(){ cal(ev.t, ev.d, ev.s, ev.e, ev.l); };
+    w.appendChild(b);
+  });
+}
+function calDay(i){ var ev = events()[i]; cal(ev.t, ev.d, ev.s, ev.e, ev.l); }
+
+var CL = [
+  ['Reservas', ['Hotel en Polanco confirmado','Trajinera privada Xochimilco (lun 19, 2:30 pm)','Almuerzo de cumpleaños — Pujol o Cuerno (mié 21, 1:00 pm)','Cena sábado — Dante o Rosa Negra','Boletos Antropología / Castillo (opcional en línea)']],
+  ['Documentos y dinero', ['Pasaportes vigentes de toda la familia','Pases de abordar / check-in en línea','Tarjeta internacional + avisar al banco','Algo de pesos mexicanos en efectivo','Seguro de viaje','App de Uber lista']],
+  ['Cumpleaños 🎂', ['Outfit para el almuerzo']],
+  ['Equipaje', ['Zapatos cómodos para caminar','Chaqueta ligera / capas','Paraguas o impermeable ligero','Gorra y bloqueador','Power bank y cargadores']]
+];
+var CK = {};
+try { CK = JSON.parse(localStorage.getItem('cdmx26_ck') || '{}'); } catch(e) { CK = {}; }
+function buildCL(){
+  var w = document.getElementById('clWrap'), n = 0;
+  CL.forEach(function(g){
+    var div = document.createElement('div'); div.className = 'cl-group';
+    var t = document.createElement('div'); t.className = 'cl-group-title'; t.textContent = g[0]; div.appendChild(t);
+    g[1].forEach(function(it){
+      var id = 'c' + (n++);
+      var row = document.createElement('div'); row.className = 'cl-item';
+      row.innerHTML = '<input type="checkbox" id="'+id+'"><label for="'+id+'" class="cl-label"></label>';
+      row.querySelector('label').textContent = it;
+      var cb = row.querySelector('input'); cb.checked = !!CK[id];
+      cb.onchange = function(){ CK[id] = cb.checked; try { localStorage.setItem('cdmx26_ck', JSON.stringify(CK)); } catch(e) {} upd(); };
+      div.appendChild(row);
+    });
+    w.appendChild(div);
+  });
+}
+function upd(){
+  var all = document.querySelectorAll('.cl-item input'), chk = document.querySelectorAll('.cl-item input:checked');
+  var p = all.length ? Math.round(chk.length / all.length * 100) : 0;
+  document.getElementById('cl-f').style.width = p + '%';
+  document.getElementById('cl-p').textContent = p + '%';
+  document.getElementById('cl-s').textContent = chk.length + ' de ' + all.length + ' listos';
+  all.forEach(function(cb){ cb.nextElementSibling.classList.toggle('done', cb.checked); });
+}
+function countdown(){
+  var start = new Date('2026-10-17T10:30:00-06:00'), end = new Date('2026-10-21T19:00:00-06:00'), now = new Date();
+  var el = document.getElementById('countdown');
+  if (now < start) { var d = Math.ceil((start - now) / 86400000); el.textContent = d === 1 ? '✈ ¡Mañana salimos!' : '✈ Faltan ' + d + ' días'; }
+  else if (now <= end) { el.textContent = '🇲🇽 ¡Estamos en México!'; }
+  else { el.textContent = '❤ Viaje completado'; }
+}
+render(); buildCL(); upd(); countdown();
+</script>
+</body>
+</html>
